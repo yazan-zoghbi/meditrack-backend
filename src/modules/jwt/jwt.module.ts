@@ -1,5 +1,5 @@
 import { Module, Global } from '@nestjs/common';
-import { JwtServiceStrategy } from './jwt.service';
+import { AdminJwtServiceStrategy } from './jwt.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
@@ -18,7 +18,7 @@ import { ConfigService } from '@nestjs/config';
     }),
   ],
 
-  providers: [JwtServiceStrategy],
+  providers: [AdminJwtServiceStrategy],
   exports: [JwtModule],
 })
 export class JwtLocalModule {}
