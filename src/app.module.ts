@@ -2,20 +2,22 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClinicModule } from './domain/clinic/clinic.module';
-import { AuthModule } from './domain/auth/auth.module';
-import { UsersModule } from './domain/users/users.module';
-import { LocalJwtModule } from './modules/jwt/jwt.module';
-
+import { MongooseModule } from '@nestjs/mongoose';
+import { JwtLocalModule } from './modules/jwt/jwt.module';
+import { BcryptModule } from './modules/bcrypt/bcrypt.module';
+import { AdminModule } from './domain/admin/admin.module';
+import { APP_GUARD } from '@nestjs/core';
+import { CategoryModule } from './domain/category/category.module';
 @Module({
   imports: [
+    MongooseModule.forRoot('mongodb://localhost:27017/scandi-clinic'),
     ConfigModule.forRoot({ isGlobal: true }),
-    ClinicModule,
-    AuthModule,
-    UsersModule,
-    LocalJwtModule,
+    JwtLocalModule,
+    BcryptModule,
+    AdminModule,
+    CategoryModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
