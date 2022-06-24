@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtLocalModule } from './modules/jwt/jwt.module';
 import { BcryptModule } from './modules/bcrypt/bcrypt.module';
 import { AdminModule } from './domain/admin/admin.module';
-import { APP_GUARD } from '@nestjs/core';
 import { CategoryModule } from './domain/category/category.module';
+import { ServiceModule } from './domain/service/service.module';
+import { ShiftModule } from './domain/shift/shift.module';
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/scandi-clinic'),
@@ -16,6 +15,8 @@ import { CategoryModule } from './domain/category/category.module';
     BcryptModule,
     AdminModule,
     CategoryModule,
+    ServiceModule,
+    ShiftModule,
   ],
   controllers: [],
   providers: [],
