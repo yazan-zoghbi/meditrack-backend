@@ -1,7 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Day } from './days.enum';
-import { Doctor } from '../doctor/';
+import { Doctor } from '../doctor/schema/doctor.schema';
 
 export type ShiftDocument = Shift & Document;
 
