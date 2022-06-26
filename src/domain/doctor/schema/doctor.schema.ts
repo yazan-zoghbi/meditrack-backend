@@ -5,6 +5,15 @@ import { Shift } from '../../shift/shift.schema';
 export type DoctorDocument = Doctor & Document;
 
 @Schema({ _id: false })
+export class Name {
+  @Prop({ required: true })
+  first: string;
+
+  @Prop({ required: true })
+  last: string;
+}
+
+@Schema({ _id: false })
 export class Doctor {
   @Prop({
     required: true,
@@ -14,10 +23,7 @@ export class Doctor {
   id: string;
 
   @Prop({ required: true })
-  name: {
-    first: string;
-    last: string;
-  };
+  name: Name;
 
   @Prop({ required: true })
   specialty: string;
