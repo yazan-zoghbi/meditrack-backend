@@ -4,6 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { AdminJwtPayload } from 'src/domain/admin/dto/admin-jwt-payload.dto';
 import { DoctorJwtPayload } from 'src/domain/doctor/dto/doctor-jwt-payload.dto';
+import { PatientJwtPayload } from 'src/domain/patient/dto/patient-jwt-payload.dto';
 import { Role } from './roles/role.enum';
 
 @Injectable()
@@ -56,11 +57,10 @@ export class PatientJwtServiceStrategy extends PassportStrategy(
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: PatientJwtPayload) {
+    if (payload.role !== Role.Patient) {
+      return null;
+    }
     return payload;
-  }
-
-  async extractAuthToken(req: any) {
-    return console.log(req.headers.authorization);
   }
 }
