@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { PatientJwtGuard } from 'src/modules/jwt/jwt.guard';
 import { AppointmentService } from '../appointment/appointment.service';
 import { CreateAppointmentDto } from '../appointment/dto/create-appointment.dto';
 import { PatientCredentialDto } from './dto/patient-credential.dto';
@@ -21,11 +22,13 @@ export class PatientController {
     return this.patientService.login(body);
   }
 
+  @UseGuards(PatientJwtGuard)
   @Post('Appointment/set')
   async setAppointment(@Body() body: CreateAppointmentDto) {
     return this.appointmentService.create(body);
   }
 
+  @UseGuards(PatientJwtGuard)
   @Get('appointment/:id')
   async getAppointments(@Param('id') id: string) {
     return this.appointmentService.getPatientAppointments(id);
