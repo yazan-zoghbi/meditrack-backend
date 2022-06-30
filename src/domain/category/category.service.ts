@@ -13,7 +13,7 @@ export class CategoryService {
   ) {}
 
   async getCategories(): Promise<CategoryDocument[]> {
-    return this.categoryModel.find();
+    return this.categoryModel.find().populate('services', 'name');
   }
 
   async getCategory(id: string): Promise<CategoryDocument> {
