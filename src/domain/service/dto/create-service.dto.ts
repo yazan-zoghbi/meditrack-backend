@@ -1,7 +1,7 @@
-import { Category } from 'src/domain/category/category.schema';
+import { ObjectId } from 'mongoose';
 
 export class CreateServiceDto {
   name: string;
-  category: Category;
+  category: ObjectId;
   time: number;
 }
