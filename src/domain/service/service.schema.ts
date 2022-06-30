@@ -10,7 +10,11 @@ export class Service {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
+  @Prop({
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+  })
   category: Category;
 
   @Prop({ required: true })
