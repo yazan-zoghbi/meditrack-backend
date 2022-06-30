@@ -5,7 +5,7 @@ import { CreateDoctorUserDto } from './dto/create-doctor-user.dto';
 import { CreateShiftDto } from '../shift/dto/create-shift.dto';
 import { CreateDoctorProfileDto } from './dto/create-doctor-profile.dto';
 import { DoctorLoginDto } from './dto/doctor-login.dto';
-import { DoctorJwtGuard } from 'src/modules/jwt/jwt.guard';
+import { AdminJwtGuard, DoctorJwtGuard } from 'src/modules/jwt/jwt.guard';
 
 @Controller('doctor')
 export class DoctorController {
@@ -24,6 +24,7 @@ export class DoctorController {
     return this.doctorService.getOneByID(id);
   }
 
+  @UseGuards(AdminJwtGuard)
   @Post('create/user')
   async createUser(@Body() body: CreateDoctorUserDto) {
     return this.doctorService.createUser(body);
