@@ -1,6 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Shift } from '../../shift/shift.schema';
+import { DoctorCredential } from './doctor-credential.schema';
 
 export type DoctorDocument = Doctor & Document;
 
@@ -13,14 +14,15 @@ export class Name {
   last: string;
 }
 
-@Schema({ _id: false })
+@Schema()
 export class Doctor {
   @Prop({
+    unique: true,
     required: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: 'DoctorCredential',
   })
-  id: string;
+  userID: DoctorCredential;
 
   @Prop({ required: true })
   name: Name;
@@ -28,7 +30,10 @@ export class Doctor {
   @Prop({ required: true })
   specialty: string;
 
-  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Shift' })
+  @Prop({
+    required: true,
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Shift' }],
+  })
   shifts: Shift[];
 }
 
