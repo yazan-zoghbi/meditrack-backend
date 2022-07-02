@@ -10,6 +10,7 @@ import {
   DoctorCredential,
   DoctorCredentialSchema,
 } from './schema/doctor-credential.schema';
+import { ShiftModule } from '../shift/shift.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import {
     JwtLocalModule,
     BcryptModule,
     ServiceModule,
+    ShiftModule,
   ],
   controllers: [DoctorController],
   providers: [DoctorService],
