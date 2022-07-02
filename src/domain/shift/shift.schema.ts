@@ -1,6 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { Day } from './days.enum';
 import { Doctor } from '../doctor/schema/doctor.schema';
 
 export type ShiftDocument = Shift & Document;
@@ -11,13 +10,13 @@ export class Shift {
   doctorId: Doctor;
 
   @Prop({ required: true })
-  days: Day[];
+  days: string[];
 
   @Prop({ required: true })
-  start: Date;
+  start: number;
 
   @Prop({ required: true })
-  end: Date;
+  end: number;
 }
 
 export const ShiftSchema = SchemaFactory.createForClass(Shift);
