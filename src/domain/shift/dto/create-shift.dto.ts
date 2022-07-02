@@ -1,8 +1,8 @@
-import { Day } from '../days.enum';
+import { ObjectId } from 'mongoose';
 
 export class CreateShiftDto {
-  doctorID: string;
-  days: Day[];
-  start: Date;
-  end: Date;
+  doctorID: ObjectId;
+  days: number[];
+  start: number;
+  end: number;
 }

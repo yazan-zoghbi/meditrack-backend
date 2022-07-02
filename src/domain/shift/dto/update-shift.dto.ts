@@ -1,7 +1,5 @@
-import { Day } from '../days.enum';
-
 export class UpdateShiftDto {
-  days: Day[];
+  days: number[];
   start: Date;
   end: Date;
 }
