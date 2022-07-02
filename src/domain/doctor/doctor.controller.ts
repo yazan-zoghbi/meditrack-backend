@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { DoctorService } from './doctor.service';
 import { ShiftService } from '../shift/shift.service';
 import { CreateDoctorUserDto } from './dto/create-doctor-user.dto';
@@ -19,6 +27,13 @@ export class DoctorController {
     return this.doctorService.getAll();
   }
 
+  @UseGuards(AdminJwtGuard)
+  @Get('users/all')
+  async getAllUsers() {
+    return this.doctorService.getAllUsers();
+  }
+
+  @UseGuards(DoctorJwtGuard)
   @Get(':id')
   async getOne(@Param('id') id: string) {
     return this.doctorService.getOneByID(id);
@@ -30,15 +45,20 @@ export class DoctorController {
     return this.doctorService.createUser(body);
   }
 
+  @UseGuards(AdminJwtGuard)
+  @Delete('delete/:id')
+  async delete(@Param('id') id: string) {
+    return this.doctorService.delete(id);
+  }
+
   @Post('login')
   async login(@Body() body: DoctorLoginDto) {
     return this.doctorService.login(body);
   }
 
-  @UseGuards(DoctorJwtGuard)
   @Post('create/profile')
   async createProfile(@Body() body: CreateDoctorProfileDto) {
-    return this.doctorService.createProfile(body);
+    return await this.doctorService.createProfile(body);
   }
 
   @UseGuards(DoctorJwtGuard)
