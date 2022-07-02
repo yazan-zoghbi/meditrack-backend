@@ -1,7 +1,8 @@
+import { ObjectId } from 'mongoose';
 import { Shift } from 'src/domain/shift/shift.schema';
 
 export class CreateDoctorProfileDto {
-  id: string;
+  userID: ObjectId;
   name: {
     first: string;
     last: string;
