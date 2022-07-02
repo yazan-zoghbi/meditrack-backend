@@ -56,26 +56,56 @@ export class DoctorService {
   }
 
   async createProfile(body: CreateDoctorProfileDto) {
-    return this.doctorModel.create(body);
+    const userExist = await this.doctorCredentialModel.exists({
+      _id: body.userID,
+    });
+
+    if (!userExist) {
+      throw new Error('User is Not Exist');
+    }
+
+    const profileExist = await this.doctorModel.findOne({
+      userID: body.userID,
+    });
+
+    if (!profileExist) {
+      return await this.doctorModel.create(body);
+    } else throw new Error('Profile Already Exist');
   }
 
   async login(body: DoctorLoginDto) {
-    const admin = await this.validate(body);
+    const doctor = await this.validate(body);
 
     const payload: DoctorJwtPayload = {
-      username: admin.username,
+      username: doctor.username,
       role: Role.Doctor,
     };
 
     const token = this.jwtService.sign(payload);
-    return token;
+    return { doctor: doctor, token: token };
   }
 
   async getAll() {
-    return this.doctorModel.find();
+    return await this.doctorModel.find().populate('shifts');
+  }
+
+  async getAllUsers() {
+    return await this.doctorCredentialModel.find();
   }
 
   async getOneByID(id: string) {
-    return this.doctorModel.findById(id);
+    return await this.doctorModel.findById(id).populate('shifts').exec();
+  }
+
+  async delete(id: string) {
+    const doctorUser = await this.doctorCredentialModel.findOne({ _id: id });
+
+    if (!doctorUser) {
+      throw new Error('User Not Found');
+    }
+
+    await this.doctorCredentialModel.findByIdAndDelete(id);
+    await this.doctorModel.deleteMany({ userID: id });
+    return doctorUser;
   }
 }
