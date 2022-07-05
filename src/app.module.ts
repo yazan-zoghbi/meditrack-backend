@@ -8,6 +8,7 @@ import { CategoryModule } from './domain/category/category.module';
 import { ServiceModule } from './domain/service/service.module';
 import { ShiftModule } from './domain/shift/shift.module';
 import { DoctorModule } from './domain/doctor/doctor.module';
+import { PatientModule } from './domain/patient/patient.module';
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/scandi-clinic'),
@@ -19,6 +20,7 @@ import { DoctorModule } from './domain/doctor/doctor.module';
     CategoryModule,
     ServiceModule,
     ShiftModule,
+    PatientModule,
   ],
   controllers: [],
   providers: [],
