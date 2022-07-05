@@ -1,8 +1,9 @@
+import { ObjectId } from 'mongoose';
 import { Service } from 'src/domain/service/service.schema';
 
 export class CreateAppointmentDto {
-  doctorID: string;
-  patientID: string;
+  doctorID: ObjectId;
+  patientID: ObjectId;
   date: Date;
-  service: Service;
+  serviceID: ObjectId;
 }
