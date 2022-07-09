@@ -14,7 +14,7 @@ export class Name {
   last: string;
 }
 
-@Schema({ _id: false })
+@Schema({ id: false })
 export class Patient {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'PatientCredential' })
   id: PatientCredential;
