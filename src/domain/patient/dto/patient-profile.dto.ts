@@ -1,4 +1,4 @@
-export class PatientSignup {
+export class PatientProfileDto {
   id: string;
   name: {
     first: string;
