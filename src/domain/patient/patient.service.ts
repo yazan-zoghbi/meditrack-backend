@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { BcryptService } from 'src/modules/bcrypt/bcrypt.service';
 import { Role } from 'src/modules/jwt/roles/role.enum';
 import { PatientCredentialDto } from './dto/patient-credential.dto';
+import { PatientProfileDto } from './dto/patient-profile.dto';
 import {
   PatientCredential,
   PatientCredentialDocument,
@@ -37,6 +38,9 @@ export class PatientService {
     );
 
     if (!isValid) {
+      console.log(body.password);
+      console.log(patient.password);
+
       throw new Error('Invalid credentials!');
     }
 
@@ -44,7 +48,12 @@ export class PatientService {
   }
 
   async signup(body: PatientCredentialDto) {
-    return await this.patientCredentialModel.create(body);
+    const patientUser = {
+      username: body.username,
+      email: body.email,
+      password: await this.bcryptService.hashPassword(body.password),
+    };
+    return await this.patientCredentialModel.create(patientUser);
   }
 
   async login(body: PatientCredentialDto) {
@@ -53,6 +62,18 @@ export class PatientService {
     const payload = { username: patient.username, role: Role.Patient };
 
     const token = this.jwtService.sign(payload);
-    return token;
+    return { patient: patient, token: token };
+  }
+
+  async createProfile(body: PatientProfileDto) {
+    const patientUser = await this.patientCredentialModel.find({
+      _id: body.id,
+    });
+
+    if (!patientUser) {
+      throw new Error('User not found!');
+    }
+
+    return await this.patientModel.create(body);
   }
 }
