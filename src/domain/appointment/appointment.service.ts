@@ -21,28 +21,44 @@ export class AppointmentService {
   ) {}
 
   private async validator(body: CreateAppointmentDto) {
-    const patient = await this.patientModel.findById(body.patientID);
-    const doctor = await this.doctorModel.findById(body.doctorID);
+    const patient = await this.patientModel.findById(body.PatientID);
+    const doctor = await this.doctorModel.findById(body.DoctorID);
     const service = await this.serviceModel.findById(body.serviceID);
-    const date = new Date(body.date);
 
     if (!patient) throw new Error('Make sure to complete your profile first');
 
     if (!doctor) throw new Error('Doctor not found!');
 
     if (!service) throw new Error('Service not found!');
+
+    body.date = new Date(body.date);
+
+    return body;
   }
 
   async create(body: CreateAppointmentDto) {
-    return this.appointmentModel.create(body);
+    const appointment = this.appointmentModel.create(
+      await this.validator(body),
+    );
+
+    const response = {
+      id: (await appointment).id,
+      Patient: (await this.patientModel.findById(body.PatientID)).name,
+      Doctor: (await this.doctorModel.findById(body.DoctorID)).name,
+      Date: (await appointment).date,
+      Service: (await this.serviceModel.findById(body.serviceID)).name,
+    };
+    return response;
   }
 
   async getPatientAppointments(PatientID: string) {
-    const appointment = this.appointmentModel
+    const query = await this.appointmentModel
       .find()
       .where('PatientID')
-      .equals(PatientID);
+      .equals(PatientID)
+      .select('DoctorID date serviceID')
+      .exec();
 
-    return appointment;
+    return query;
   }
 }
