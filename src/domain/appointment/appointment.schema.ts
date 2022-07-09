@@ -1,7 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { DoctorCredential } from '../doctor/schema/doctor-credential.schema';
-import { PatientCredential } from '../patient/schema/patient-credential.schema';
+import { Doctor } from '../doctor/schema/doctor.schema';
+import { Patient } from '../patient/schema/patient.schema';
 import { Service } from '../service/service.schema';
 
 export type AppointmentDocument = Appointment & Document;
@@ -11,16 +11,16 @@ export class Appointment {
   @Prop({
     required: true,
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'PatientCredential',
+    ref: 'Patient',
   })
-  PatientID: PatientCredential;
+  PatientID: Patient;
 
   @Prop({
     required: true,
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'DoctorCredential',
+    ref: 'Doctor',
   })
-  DoctorID: DoctorCredential;
+  DoctorID: Doctor;
 
   @Prop()
   active: boolean;
