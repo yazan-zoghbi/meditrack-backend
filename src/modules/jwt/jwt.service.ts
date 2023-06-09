@@ -26,6 +26,7 @@ export class AdminJwtServiceStrategy extends PassportStrategy(
     return payload;
   }
 }
+
 @Injectable()
 export class DoctorJwtServiceStrategy extends PassportStrategy(
   Strategy,
@@ -45,6 +46,7 @@ export class DoctorJwtServiceStrategy extends PassportStrategy(
     return payload;
   }
 }
+
 @Injectable()
 export class PatientJwtServiceStrategy extends PassportStrategy(
   Strategy,
