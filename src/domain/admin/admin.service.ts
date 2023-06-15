@@ -9,7 +9,7 @@ import { AdminJwtPayload } from './dto/admin-jwt-payload.dto';
 import { Role } from 'src/modules/jwt/roles/role.enum';
 
 // eslint-disable-next-line prettier/prettier
-Injectable()
+Injectable();
 export class AdminService {
   constructor(
     @InjectModel(Admin.name) private adminModel: Model<AdminDocument>,
@@ -57,8 +57,7 @@ export class AdminService {
     return this.adminModel.create(admin);
   }
 
-  async delete(body: AdminLoginDto) {
-    await this.validate(body);
-    return this.adminModel.deleteOne({ username: body.username });
+  async delete(adminId: string) {
+    return this.adminModel.deleteOne({ _id: adminId });
   }
 }
