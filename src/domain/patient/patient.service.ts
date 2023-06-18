@@ -48,14 +48,11 @@ export class PatientService {
   }
 
   async signup(body: PatientCredentialDto) {
-    console.log(typeof(body));
-
     const patientUser = {
       username: body.username,
       email: body.email,
       password: await this.bcryptService.hashPassword(body.password),
     };
-    console.log(patientUser);
     return await this.patientCredentialModel.create(patientUser);
   }
 
