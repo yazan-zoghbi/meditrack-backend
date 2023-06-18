@@ -35,6 +35,8 @@
     "@types/passport-local": "^1.0.34",
     "@types/sequelize": "^4.28.13",
     "bcrypt": "^5.0.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "mongoose": "^6.3.6",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
