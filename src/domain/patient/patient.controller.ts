@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { PatientJwtGuard } from 'src/modules/jwt/jwt.guard';
 import { AppointmentService } from '../appointment/appointment.service';
 import { CreateAppointmentDto } from '../appointment/dto/create-appointment.dto';
@@ -10,12 +18,16 @@ import {
   ApiCreatedResponse,
   ApiOperation,
   ApiParam,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { PatientSignupResponseDto } from './dto/patient-response.dto';
+import {
+  PatientLoginResponseDto,
+  PatientSignupResponseDto,
+} from './dto/patient-response.dto';
 
 @ApiTags('Patient')
-@Controller('patient')
+@Controller('patients')
 export class PatientController {
   constructor(
     private readonly patientService: PatientService,
@@ -29,6 +41,7 @@ export class PatientController {
     description: 'Your account created successfully!',
     type: PatientSignupResponseDto,
   })
+  @HttpCode(201)
   async signup(@Body() body: PatientCredentialDto) {
     const newPatient = await this.patientService.signup(body);
 
@@ -49,8 +62,26 @@ export class PatientController {
   @Post('/auth/login')
   @ApiOperation({ summary: 'Login as a patient' })
   @ApiBody({ type: PatientCredentialDto })
+  @ApiResponse({
+    description: 'You have successfully logged in.',
+    type: PatientLoginResponseDto,
+  })
+  @HttpCode(200)
   async login(@Body() body: PatientCredentialDto) {
-    return await this.patientService.login(body);
+    const loggedInPatient = await this.patientService.login(body);
+    const response: PatientLoginResponseDto = {
+      status: 'success',
+      message: 'You have successfully logged in.',
+      data: {
+        patient: {
+          id: loggedInPatient.patient._id.toString(),
+          username: loggedInPatient.patient.username,
+          email: loggedInPatient.patient.email,
+        },
+        token: loggedInPatient.token,
+      },
+    };
+    return response;
   }
 
   @UseGuards(PatientJwtGuard)
