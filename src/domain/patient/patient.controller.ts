@@ -5,7 +5,14 @@ import { CreateAppointmentDto } from '../appointment/dto/create-appointment.dto'
 import { PatientCredentialDto } from './dto/patient-credential.dto';
 import { PatientProfileDto } from './dto/patient-profile.dto';
 import { PatientService } from './patient.service';
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
+import { PatientSignupResponseDto } from './dto/patient-response.dto';
 
 @ApiTags('Patient')
 @Controller('patient')
@@ -18,8 +25,25 @@ export class PatientController {
   @Post('/auth/signup')
   @ApiOperation({ summary: 'Register a new patient' })
   @ApiBody({ type: PatientCredentialDto })
+  @ApiCreatedResponse({
+    description: 'Your account created successfully!',
+    type: PatientSignupResponseDto,
+  })
   async signup(@Body() body: PatientCredentialDto) {
-    return this.patientService.signup(body);
+    const newPatient = await this.patientService.signup(body);
+
+    if (newPatient) {
+      const response: PatientSignupResponseDto = {
+        status: 'success',
+        message: 'Your account created successfully!',
+        data: {
+          username: body.username,
+          email: body.email,
+          id: newPatient._id.toString(),
+        },
+      };
+      return response;
+    } else return { message: 'error!' };
   }
 
   @Post('/auth/login')
