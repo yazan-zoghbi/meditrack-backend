@@ -43,7 +43,7 @@ export class AppointmentService {
 
     const response = {
       id: (await appointment).id,
-      Patient: (await this.patientModel.findById(body.PatientID)).name,
+      Patient: (await this.patientModel.findById(body.PatientID)).patientName,
       Doctor: (await this.doctorModel.findById(body.DoctorID)).name,
       Date: (await appointment).date,
       Service: (await this.serviceModel.findById(body.serviceID)).name,
