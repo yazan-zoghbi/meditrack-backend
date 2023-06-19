@@ -85,11 +85,14 @@ export class PatientController {
   }
 
   @UseGuards(PatientJwtGuard)
-  @Post('/{patientID}/profile')
+  @Post('/:patientID/profile')
   @ApiOperation({ summary: 'Create a profile by patient' })
   @ApiBody({ type: PatientProfileDto })
-  async createProfile(@Body() body: PatientProfileDto) {
-    return await this.patientService.createProfile(body);
+  async createProfile(
+    @Param('patientID') patientID: string,
+    @Body() body: PatientProfileDto,
+  ) {
+    return await this.patientService.createProfile(patientID, body);
   }
 
   @UseGuards(PatientJwtGuard)
