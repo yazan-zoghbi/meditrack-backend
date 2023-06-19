@@ -59,15 +59,19 @@ export class PatientService {
   async login(body: PatientCredentialDto) {
     const patient = await this.validate(body);
 
-    const payload = { username: patient.username, role: Role.Patient };
+    const payload = {
+      id: patient._id.toString(),
+      username: patient.username,
+      role: Role.Patient,
+    };
 
     const token = this.jwtService.sign(payload);
     return { patient: patient, token: token };
   }
 
-  async createProfile(body: PatientProfileDto) {
+  async createProfile(patientId: string, body: PatientProfileDto) {
     const patientUser = await this.patientCredentialModel.find({
-      _id: body.id,
+      _id: patientId,
     });
 
     if (!patientUser) {
