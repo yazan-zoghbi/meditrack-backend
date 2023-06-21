@@ -38,9 +38,6 @@ export class PatientService {
     );
 
     if (!isValid) {
-      console.log(body.password);
-      console.log(patient.password);
-
       throw new Error('Invalid credentials!');
     }
 
