@@ -21,5 +21,5 @@ export class PatientProfileDto {
   bloodType: BloodType;
 
   @ApiPropertyOptional({ enum: ChronicDiseases, enumName: 'Chronic Diseases' })
-  chronicDiseases?: ChronicDiseases;
+  chronicDiseases?: ChronicDiseases[];
 }
